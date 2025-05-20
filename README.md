@@ -194,7 +194,7 @@ image-editor-api/
 
 * Har bir endpoint uchun `Authorization` token kerak.
 * Rasm transformatsiyasi JSON formatida yuboriladi.
-* Yuklangan rasmlar `media/` papkaga saqlanadi.
+* Yuklangan rasmlar `originals/` papkaga saqlanadi.
 
 ---
 
