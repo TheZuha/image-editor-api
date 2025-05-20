@@ -1,0 +1,31 @@
+{% load static %} 
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <title>Gallery</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>My Images</h2>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {{ upload_form.as_p }}
+        <button name="upload">Upload</button>
+      </form>
+
+      <div class="grid">
+        {% for img in images %}
+        <div>
+          <a href="{% url 'transform' img.id %}">
+            <img src="{{ img.original.url }}" width="200" />
+          </a>
+        </div>
+        {% empty %}
+        <p>No images yet.</p>
+        {% endfor %}  
+      </div>
+    </div>
+  </body>
+</html>
