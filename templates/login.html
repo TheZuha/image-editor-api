@@ -1,39 +1,42 @@
-{% load static %}
+<!-- {% load static %} -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Kirish</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex align-items-center" style="min-height:100vh;">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-5">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h3 class="card-title text-center mb-4">Login</h3>
-            <form id="loginForm">
+        <div class="card shadow-lg border-0 mt-5">
+          <div class="card-body p-4">
+            <h2 class="mb-4 text-center">Kirish</h2>
+            <form id="loginForm" autocomplete="off">
               <div class="mb-3">
-                <input type="text" id="username" class="form-control" placeholder="Username" required>
+                <label for="username" class="form-label">Foydalanuvchi nomi</label>
+                <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
               </div>
               <div class="mb-3">
+                <label for="password" class="form-label">Parol</label>
                 <input type="password" id="password" class="form-control" placeholder="Password" required>
               </div>
-              <button class="btn btn-success w-100">Sign In</button>
+              <button class="btn btn-success w-100">Kirish</button>
             </form>
+            <div id="loginAlert" class="mt-3"></div>
             <hr>
-            <p class="text-center">
-              New user?
-              <a href="register.html">Register here</a>
-            </p>
+            <div class="text-center">
+              <span>Yangi foydalanuvchimisiz? <a href="register.html">Ro‘yxatdan o‘ting</a></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script src="js/auth.js"></script>
+  <script src="/static/js/auth.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

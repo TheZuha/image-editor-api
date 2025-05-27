@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +8,10 @@ from .serializers import ImageSerializer
 from PIL import Image as PILImage, ImageDraw, ImageFont
 from io import BytesIO
 from django.core.files.base import ContentFile
+
+class IsOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.owner == request.user
 
 class ImageUploadView(generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -24,9 +28,9 @@ class ImageListView(generics.ListAPIView):
     def get_queryset(self):
         return Image.objects.filter(owner=self.request.user).order_by('-created_at')
 
-class ImageDetailView(generics.RetrieveAPIView):
+class ImageDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = ImageSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = Image.objects.all()
 
 class ImageTransformView(generics.GenericAPIView):
@@ -71,6 +75,8 @@ class ImageTransformView(generics.GenericAPIView):
                     pixels[i, j] = (min(tr,255), min(tg,255), min(tb,255))
             img = sepia
         fmt = ops.get('format', 'JPEG')
+        if fmt.upper() == 'JPEG' and img.mode != 'RGB':
+            img = img.convert('RGB')
         quality = ops.get('compress', {}).get('quality', 85)
         buffer = BytesIO()
         img.save(buffer, format=fmt, quality=quality)

@@ -4,12 +4,39 @@ Bu loyiha `Django Rest Framework` yordamida yaratilgan **Rasm tahrirlovchi (Imag
 
 ---
 
+## 🌐 Veb interfeysdan foydalanish
+
+1. **Django serverini ishga tushiring:**
+   ```bash
+   python manage.py runserver
+   ```
+2. **Brauzerda quyidagi manzillarga kiring:**
+   - `http://127.0.0.1:8000/static/login.html` — Kirish (login) sahifasi
+   - `http://127.0.0.1:8000/static/register.html` — Ro‘yxatdan o‘tish sahifasi
+
+3. **Login qilmasdan galereya va transform sahifalariga kirib bo‘lmaydi!**
+   - Foydalanuvchi login qilgandan so‘ng, galereya va rasm tahrirlash sahifalariga o‘tish mumkin.
+
+4. **Galereya (gallery) sahifasi:**
+   - Rasm yuklash, ko‘rish va har bir rasmni o‘chirish ("O‘chirish" tugmasi orqali) mumkin.
+   - "Transform" tugmasi orqali rasmni tahrirlash sahifasiga o‘tasiz.
+
+5. **Transform (tahrirlash) sahifasi:**
+   - Rasmga turli effektlar, o‘lcham, crop, rotate, flip, mirror, watermark, format va sifat berish mumkin.
+   - Natijani ko‘rish va yuklab olish mumkin.
+
+6. **Chiqish (logout):**
+   - Har bir sahifada "Chiqish" tugmasi bor. Uni bossangiz, token o‘chadi va login sahifasiga qaytasiz.
+
+---
+
 ## 📌 Imkoniyatlar
 
 * 📤 Rasm yuklash
 * 📁 Rasm ro‘yxatini olish
 * 🔍 Bitta rasm tafsilotlarini ko‘rish
 * 🛠️ Rasmga transformatsiya: rotate, crop, resize, filter, watermark, format va h.k.
+* 🗑️ Rasmni o‘chirish (galereyada)
 * 🔐 Ro‘yxatdan o‘tish va login qilish (Token authentication)
 
 ---
@@ -19,11 +46,25 @@ Bu loyiha `Django Rest Framework` yordamida yaratilgan **Rasm tahrirlovchi (Imag
 | Yo‘l (`Endpoint`)  | Method | Tavsifi                                     |
 | ------------------ | ------ | ------------------------------------------- |
 | `/auth/register/`       | POST   | Ro‘yxatdan o‘tish                           |
-| `auth//login/`          | POST   | Login qilish (token olish)                  |
+| `/auth/login/`          | POST   | Login qilish (token olish)                  |
 | `/images/`                | POST   | Rasm yuklash                                |
 | `/images/list/`           | GET    | Foydalanuvchining barcha rasmlari           |
 | `/images/<pk>/`           | GET    | Bitta rasm tafsilotlari                     |
+| `/images/<pk>/`           | DELETE | Rasmni o‘chirish                            |
 | `/images/<pk>/transform/` | POST   | Rasmga o‘zgartirishlar kiritish (transform) |
+
+---
+
+## 🌐 Veb interfeys (frontend) sahifalari
+
+| URL manzil (namuna)                                 | Tavsifi                        |
+|-----------------------------------------------------|-------------------------------|
+| `http://127.0.0.1:8000/static/login.html`           | Login (kirish) sahifasi        |
+| `http://127.0.0.1:8000/static/register.html`        | Ro‘yxatdan o‘tish sahifasi     |
+| `http://127.0.0.1:8000/static/gallery.html`         | Galereya (rasmlar ro‘yxati)    |
+| `http://127.0.0.1:8000/static/transform.html`       | Rasmni tahrirlash sahifasi     |
+
+> **Eslatma:** Agar siz local serverdan tashqari (masalan, VSCode Live Server yoki boshqa portda) ochsangiz, masalan, `http://127.0.0.1:5500/templates/gallery.html` — bu usulda API ishlamaydi va tokenlar noto‘g‘ri ishlashi mumkin. Har doim Django server orqali static fayllarni oching yoki yuqoridagi URL'lardan foydalaning.
 
 ---
 
@@ -129,7 +170,15 @@ original: [fayl tanlang]
 
 ---
 
-### 6. Rasmni transformatsiya qilish
+### 6. Rasmni o‘chirish
+
+**DELETE** `/images/<pk>/`
+
+**Header:** `Authorization: Token ...`
+
+---
+
+### 7. Rasmni transformatsiya qilish
 
 **POST** `/images/<pk>/transform/`
 
@@ -192,9 +241,12 @@ image-editor-api/
 
 ## ✅ Eslatma
 
+* Veb interfeysdan foydalanish uchun avval login qilish shart!
 * Har bir endpoint uchun `Authorization` token kerak.
 * Rasm transformatsiyasi JSON formatida yuboriladi.
 * Yuklangan rasmlar `originals/` papkaga saqlanadi.
+* Galereyada har bir rasmni o‘chirish mumkin.
+* Chiqish (logout) tugmasi har bir sahifada mavjud.
 
 ---
 
